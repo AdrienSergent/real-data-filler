@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./node_modules/@penpot"],
+    "typeRoots": ["./node_modules/@types", "./node_modules/@penpot", "./src"],
     "types": ["plugin-types"],
     "target": "ES2020",
     "useDefineForClassFields": true,

@@ -3,7 +3,7 @@
  */
 
 export interface ThemePluginEvent {
-  type: 'theme'
+  type: 'theme' | 'init'
   content: string
 }
 
