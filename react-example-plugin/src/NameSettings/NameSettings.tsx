@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface NameSettingsProps {
   onApply: (settings: any) => void;
   onBack: () => void;
+  settings: any;
 }
 
-const NameSettings: React.FC<NameSettingsProps> = ({ onApply, onBack }) => {
-  const [nameType, setNameType] = useState("U.S. English (EN)");
-  const [gender, setGender] = useState("Male & Female");
-  const [includeFirstName, setIncludeFirstName] = useState(true);
-  const [includeLastName, setIncludeLastName] = useState(true);
-  const [includeComma, setIncludeComma] = useState(false);
+const NameSettings: React.FC<NameSettingsProps> = ({ onApply, onBack, settings }) => {
+  const [nameType, setNameType] = useState(settings.nameType);
+  const [gender, setGender] = useState(settings.gender);
+  const [includeFirstName, setIncludeFirstName] = useState(settings.includeFirstName);
+  const [includeLastName, setIncludeLastName] = useState(settings.includeLastName);
+  const [includeComma, setIncludeComma] = useState(settings.includeComma);
+
+  useEffect(() => {
+    setNameType(settings.nameType);
+    setGender(settings.gender);
+    setIncludeFirstName(settings.includeFirstName);
+    setIncludeLastName(settings.includeLastName);
+    setIncludeComma(settings.includeComma);
+  }, [settings]);
 
   const handleApply = () => {
     onApply({ nameType, gender, includeFirstName, includeLastName, includeComma });
@@ -23,7 +32,6 @@ const NameSettings: React.FC<NameSettingsProps> = ({ onApply, onBack }) => {
         <label>Name Type</label>
         <select value={nameType} onChange={(e) => setNameType(e.target.value)}>
           <option>U.S. English (EN)</option>
-          <option>British English (EN-GB)</option>
           <option>French (FR)</option>
         </select>
       </div>

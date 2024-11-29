@@ -1,13 +1,34 @@
-import { faker } from "@faker-js/faker";
+import { Faker, fr, en } from "@faker-js/faker";
 import { TextElement } from "../interfaces/interfaces";
+
+/**
+ * Retourne une instance Faker configurée pour une locale donnée.
+ */
+const getCustomFakerInstance = (locale: string): Faker => {
+  switch (locale) {
+    case "U.S. English (EN)":
+      return new Faker({ locale: [en] });
+    case "French (FR)":
+      return new Faker({ locale: [fr, en] }); // French avec fallback en anglais
+    default:
+      return new Faker({ locale: [en] }); // Par défaut, anglais
+  }
+};
 
 /**
  * Génère des données factices en fonction des paramètres fournis.
  */
 export const generateFakeData = (dataType: string, settings: any): string => {
+  const faker = getCustomFakerInstance(settings.nameType); // Obtenez l'instance personnalisée
+
   if (dataType === "name") {
-    const firstName = settings.includeFirstName ? faker.name.firstName() : "";
-    const lastName = settings.includeLastName ? faker.name.lastName() : "";
+    const fakerGender =
+      settings.gender === "Male" ? "male" : settings.gender === "Female" ? "female" : undefined;
+
+    const firstName = settings.includeFirstName
+      ? faker.person.firstName(fakerGender)
+      : "";
+    const lastName = settings.includeLastName ? faker.person.lastName() : "";
     const separator = settings.includeComma ? ", " : " ";
     return `${firstName}${separator}${lastName}`.trim();
   }
@@ -45,7 +66,7 @@ export const updateTextElements = (
   elements: TextElement[],
   dataType: string,
   postMessage: (message: any) => void,
-  settings: any // Ajouter les réglages en tant que paramètre
+  settings: any
 ) => {
   const fakeDataArray = elements.length
     ? elements.map(() => generateFakeData(dataType, settings))

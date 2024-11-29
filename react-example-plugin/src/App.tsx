@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./App.css"; // Le fichier CSS pour le style
+import "./App.css";
 import TabBar from "./components/TabBar/TabBar";
 import OptionsContainer from "./components/OptionsContainer/OptionsContainer";
 import StatusMessage from "./components/StatusMessage/StatusMessage";
@@ -15,14 +15,14 @@ const App: React.FC = () => {
   const [elements, setElements] = useState<TextElement[]>([]);
   const [status, setStatus] = useState<string>("En attente...");
   const [dataType, setDataType] = useState<string>("name");
-  const [currentView, setCurrentView] = useState<string>("options"); // Basculer entre les vues
+  const [currentView, setCurrentView] = useState<string>("options");
   const [nameSettings, setNameSettings] = useState<any>({
     nameType: "U.S. English (EN)",
     gender: "Male & Female",
     includeFirstName: true,
     includeLastName: true,
     includeComma: false,
-  }); // Valeurs par défaut des réglages
+  });
 
   useEffect(() => {
     const listener = (event: MessageEvent) =>
@@ -37,15 +37,18 @@ const App: React.FC = () => {
   }, []);
 
   const handleGenerateClick = () => {
-    updateTextElements(elements, dataType, (message: any) =>
-      window.parent.postMessage(message, "*"),
-      nameSettings // Passer les réglages des noms
+    updateTextElements(
+      elements,
+      dataType,
+      (message: any) => window.parent.postMessage(message, "*"),
+      nameSettings
     );
   };
 
   const handleOpenNameSettings = () => setCurrentView("name-settings");
+
   const handleApplyNameSettings = (settings: any) => {
-    setNameSettings(settings); // Mettre à jour les réglages dans le state
+    setNameSettings(settings);
     setCurrentView("options");
   };
 
@@ -62,7 +65,7 @@ const App: React.FC = () => {
                 options={options}
                 dataType={dataType}
                 setDataType={setDataType}
-                onCustomizeName={handleOpenNameSettings} // Ajouter la gestion de la personnalisation
+                onCustomizeName={handleOpenNameSettings}
               />
               <GenerateButton onClick={handleGenerateClick} />
             </div>
@@ -74,6 +77,7 @@ const App: React.FC = () => {
         <NameSettings
           onApply={handleApplyNameSettings}
           onBack={() => setCurrentView("options")}
+          settings={nameSettings}
         />
       )}
     </div>
