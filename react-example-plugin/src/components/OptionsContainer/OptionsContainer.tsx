@@ -12,6 +12,8 @@ interface OptionsContainerProps {
   dataType: string;
   setDataType: (type: string) => void;
   onCustomizeName: () => void; // Callback pour ouvrir la personnalisation des noms
+  onCustomizePhone: () => void; // Callback pour ouvrir la personnalisation des téléphones
+  onCustomizeNumber: () => void; // Callback pour ouvrir la personnalisation des nombres
 }
 
 const OptionsContainer: React.FC<OptionsContainerProps> = ({
@@ -19,6 +21,8 @@ const OptionsContainer: React.FC<OptionsContainerProps> = ({
   dataType,
   setDataType,
   onCustomizeName,
+  onCustomizePhone,
+  onCustomizeNumber,
 }) => {
   const optionsWithEllipsis = ["name", "phone", "number", "date-time", "lorem-ipsum", "addresses"];
 
@@ -42,6 +46,8 @@ const OptionsContainer: React.FC<OptionsContainerProps> = ({
               onClick={(e) => {
                 e.stopPropagation(); // Empêche l'appel de `setDataType`
                 if (option.id === "name") onCustomizeName(); // Ouvrir l'écran des réglages pour les noms
+                if (option.id === "phone") onCustomizePhone(); // Ouvrir l'écran des réglages pour les téléphones
+                if (option.id === "number") onCustomizeNumber(); // Ouvrir l'écran des réglages pour les nombres
               }}
             >
               •••
@@ -54,3 +60,4 @@ const OptionsContainer: React.FC<OptionsContainerProps> = ({
 };
 
 export default OptionsContainer;
+

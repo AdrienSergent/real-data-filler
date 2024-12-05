@@ -16,6 +16,22 @@ const getCustomFakerInstance = (locale: string): Faker => {
 };
 
 /**
+ * Retourne les bornes de la plage de nombres en fonction de `numberRange`.
+ */
+const getNumberRange = (numberRange: string) => {
+  switch (numberRange) {
+    case "Tens (xx)":
+      return { min: 10, max: 99 };
+    case "Hundreds (xxx)":
+      return { min: 100, max: 999 };
+    case "Thousands (xxxx)":
+      return { min: 1000, max: 9999 };
+    default: // "Ones (x)"
+      return { min: 1, max: 9 };
+  }
+};
+
+/**
  * Génère des données factices en fonction des paramètres fournis.
  */
 export const generateFakeData = (dataType: string, settings: any): string => {
@@ -33,13 +49,34 @@ export const generateFakeData = (dataType: string, settings: any): string => {
     return `${firstName}${separator}${lastName}`.trim();
   }
 
+  if (dataType === "number") {
+    const range = getNumberRange(settings.numberRange);
+    let number = faker.number.int({ min: range.min, max: range.max });
+    console.log(range, 'range')
+
+    console.log(number, 'number')
+    console.log(settings, 'settings global')
+
+    if (settings.showDecimal) {
+      number = parseFloat((number + Math.random()).toFixed(2));
+      console.log(settings, 'settings show decimal')
+
+    }
+
+    if (settings.showCurrency) {
+      console.log(settings, 'settings')
+
+      return `$${number}`;
+    }
+
+    return number.toString();
+  }
+
   switch (dataType) {
     case "companies":
       return faker.company.name();
     case "phone":
       return faker.phone.number();
-    case "number":
-      return faker.number.int({ min: 0, max: 1000 }).toString();
     case "date-time":
       return faker.date.recent().toISOString();
     case "lorem-ipsum":
