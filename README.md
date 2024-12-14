@@ -7,8 +7,6 @@ npm install
 npm run dev
 Plugin url: http://localhost:4402/manifest.json
 
-Vue
-
 Author
 Adrien Sergent
 
