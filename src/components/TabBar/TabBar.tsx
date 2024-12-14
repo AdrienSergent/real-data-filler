@@ -16,16 +16,6 @@ const TabBar: React.FC<TabBarProps> = ({ activeTab, setActiveTab }) => {
       </button>
       <button className="tab disabled">Avatars</button>
       <button className="tab disabled">Icons</button>
-      <div className="tooltip-container">
-        <button className="tab info">i</button>
-        <div className="tooltip">Utilisez ce plugin pour générer du contenu aléatoire.</div>
-      </div>
-      <button
-        className={`tab ${activeTab === "about" ? "active" : ""}`}
-        onClick={() => setActiveTab("about")}
-      >
-        About
-      </button>
     </div>
   );
 };

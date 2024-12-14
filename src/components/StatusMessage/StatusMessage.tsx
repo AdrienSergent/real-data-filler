@@ -5,7 +5,7 @@ interface StatusMessageProps {
 }
 
 const StatusMessage: React.FC<StatusMessageProps> = ({ status }) => {
-  return <p>Status: {status}</p>;
+  return <p className="status">Status: {status}</p>;
 };
 
 export default StatusMessage;

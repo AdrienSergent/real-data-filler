@@ -83,7 +83,7 @@ h1 {
 
 .tab-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
@@ -419,4 +419,8 @@ button:hover {
   padding: 10px;
   background: #f9f9f9;
   white-space: pre-wrap; /* Conserve les sauts de ligne */
+}
+
+.status {
+  text-align: center;
 }

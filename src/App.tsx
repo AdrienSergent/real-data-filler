@@ -3,11 +3,10 @@ import "./App.css";
 import TabBar from "./components/TabBar/TabBar";
 import OptionsContainer from "./components/OptionsContainer/OptionsContainer";
 import StatusMessage from "./components/StatusMessage/StatusMessage";
-import GenerateButton from "./components/GenerateButton/GenerateButton";
 import AboutContent from "./components/AboutContent/AboutContent";
 import NameSettings from "./NameSettings/NameSettings";
 import PhoneSettings from "./components/PhoneSettings/PhoneSettings";
-import NumberSettings from "./components/NumberSettings/NumberSettings"; 
+import NumberSettings from "./components/NumberSettings/NumberSettings";
 import DateSettings from "./components/DateSettings/DateSettings";
 import AddressSettings from "./components/AddressSettings/AddressSettings";
 import { options } from "./data/options";
@@ -17,7 +16,7 @@ import { TextElement } from "./interfaces/interfaces";
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("text");
   const [elements, setElements] = useState<TextElement[]>([]);
-  const [status, setStatus] = useState<string>("En attente...");
+  const [status, setStatus] = useState<string>("");
   const [dataType, setDataType] = useState<string>("name");
   const [currentView, setCurrentView] = useState<string>("options");
 
@@ -30,11 +29,11 @@ const App: React.FC = () => {
   });
 
   const [phoneSettings, setPhoneSettings] = useState<any>({
-    format: "(XXX) XXX-XXXX", // Format par défaut
+    format: "(XXX) XXX-XXXX",
   });
 
   const [numberSettings, setNumberSettings] = useState<any>({
-    numberRange: "Ones (x)", // Plage par défaut
+    numberRange: "Ones (x)",
     showCurrency: false,
     showDecimal: false,
   });
@@ -67,9 +66,9 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const handleGenerateClick = () => {
+  const generateDataOnClick = (selectedDataType: string) => {
     let settings = {};
-    switch (dataType) {
+    switch (selectedDataType) {
       case "name":
         settings = nameSettings;
         break;
@@ -87,9 +86,10 @@ const App: React.FC = () => {
         break;
     }
 
+    setDataType(selectedDataType);
     updateTextElements(
       elements,
-      dataType,
+      selectedDataType,
       (message: any) => window.parent.postMessage(message, "*"),
       settings
     );
@@ -137,14 +137,13 @@ const App: React.FC = () => {
               <OptionsContainer
                 options={options}
                 dataType={dataType}
-                setDataType={setDataType}
+                setDataType={generateDataOnClick} // Génération des données au clic
                 onCustomizeName={handleOpenNameSettings}
                 onCustomizePhone={handleOpenPhoneSettings}
                 onCustomizeNumber={handleOpenNumberSettings}
                 onCustomizeDate={handleOpenDateSettings}
                 onCustomizeAddress={handleOpenAddressSettings}
               />
-              <GenerateButton onClick={handleGenerateClick} />
             </div>
           )}
           {activeTab === "about" && <AboutContent />}

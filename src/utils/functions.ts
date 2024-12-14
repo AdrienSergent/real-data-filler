@@ -206,12 +206,12 @@ export const handleMessage = (
       setElements(message.elements || []);
       break;
     case "updateSuccess":
-      setStatus("Tous les éléments texte ont été mis à jour.");
+      setStatus("All text elements have been updated.");
       break;
     case "error":
-      setStatus(message.message || "Erreur inconnue.");
+      setStatus(message.message || "Unknown error.");
       break;
     default:
-      console.warn("Message inconnu reçu :", message);
+      console.warn("Unknown message received :", message);
   }
 };
