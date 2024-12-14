@@ -401,3 +401,22 @@ button:hover {
 .apply-button:hover {
   background-color: #0056b3;
 }
+
+.preview ul {
+  list-style: none;
+  padding: 0;
+}
+
+.preview li {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.lorem-ipsum-settings .preview-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #f9f9f9;
+  white-space: pre-wrap; /* Conserve les sauts de ligne */
+}

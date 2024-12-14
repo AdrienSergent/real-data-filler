@@ -102,5 +102,5 @@ penpot.ui.onMessage(async (rawMessage) => {
 });
 
 // Ouvrir l'interface utilisateur
-penpot.ui.open("React example plugin", `?theme=${penpot.theme || "default"}`);
+penpot.ui.open("Real Data Filler", `?theme=${penpot.theme || "default"}`);
 console.log("Interface utilisateur ouverte.");

@@ -1,4 +1,4 @@
-# React example plugin
+# Real Data Filler plugin
 
 This is a plugin example for penpot.
 

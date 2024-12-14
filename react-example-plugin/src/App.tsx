@@ -7,7 +7,9 @@ import GenerateButton from "./components/GenerateButton/GenerateButton";
 import AboutContent from "./components/AboutContent/AboutContent";
 import NameSettings from "./NameSettings/NameSettings";
 import PhoneSettings from "./components/PhoneSettings/PhoneSettings";
-import NumberSettings from "./components/NumberSettings/NumberSettings"; // Import du composant NumberSettings
+import NumberSettings from "./components/NumberSettings/NumberSettings"; 
+import DateSettings from "./components/DateSettings/DateSettings";
+import AddressSettings from "./components/AddressSettings/AddressSettings";
 import { options } from "./data/options";
 import { updateTextElements, handleMessage } from "./utils/functions";
 import { TextElement } from "./interfaces/interfaces";
@@ -37,6 +39,22 @@ const App: React.FC = () => {
     showDecimal: false,
   });
 
+  const [dateSettings, setDateSettings] = useState<any>({
+    includeDate: true,
+    includeTime: false,
+    dateFormat: "YYYY-MM-DD",
+    timeFormat: "HH:mm:ss",
+  });
+
+  const [addressSettings, setAddressSettings] = useState<any>({
+    includeStreet: true,
+    includeCity: true,
+    includeComma: true,
+    includeState: true,
+    includeZip: true,
+    includeCountry: true,
+  });
+
   useEffect(() => {
     const listener = (event: MessageEvent) =>
       handleMessage(event, setElements, setStatus);
@@ -50,11 +68,30 @@ const App: React.FC = () => {
   }, []);
 
   const handleGenerateClick = () => {
+    let settings = {};
+    switch (dataType) {
+      case "name":
+        settings = nameSettings;
+        break;
+      case "phone":
+        settings = phoneSettings;
+        break;
+      case "number":
+        settings = numberSettings;
+        break;
+      case "date-time":
+        settings = dateSettings;
+        break;
+      case "addresses":
+        settings = addressSettings;
+        break;
+    }
+
     updateTextElements(
       elements,
       dataType,
       (message: any) => window.parent.postMessage(message, "*"),
-      dataType === "number" ? numberSettings : dataType === "name" ? nameSettings : {}
+      settings
     );
   };
 
@@ -73,7 +110,18 @@ const App: React.FC = () => {
   const handleOpenNumberSettings = () => setCurrentView("number-settings");
   const handleApplyNumberSettings = (settings: any) => {
     setNumberSettings(settings);
-    console.log(settings, 'settings App.tsx')
+    setCurrentView("options");
+  };
+
+  const handleOpenDateSettings = () => setCurrentView("date-settings");
+  const handleApplyDateSettings = (settings: any) => {
+    setDateSettings(settings);
+    setCurrentView("options");
+  };
+
+  const handleOpenAddressSettings = () => setCurrentView("address-settings");
+  const handleApplyAddressSettings = (settings: any) => {
+    setAddressSettings(settings);
     setCurrentView("options");
   };
 
@@ -86,14 +134,15 @@ const App: React.FC = () => {
             <div>
               <h1>Real Data Filler</h1>
               <StatusMessage status={status} />
-              {/* OptionsContainer pour gérer les options */}
               <OptionsContainer
                 options={options}
                 dataType={dataType}
                 setDataType={setDataType}
                 onCustomizeName={handleOpenNameSettings}
                 onCustomizePhone={handleOpenPhoneSettings}
-                onCustomizeNumber={handleOpenNumberSettings} // Ajout du gestionnaire pour Number
+                onCustomizeNumber={handleOpenNumberSettings}
+                onCustomizeDate={handleOpenDateSettings}
+                onCustomizeAddress={handleOpenAddressSettings}
               />
               <GenerateButton onClick={handleGenerateClick} />
             </div>
@@ -122,9 +171,22 @@ const App: React.FC = () => {
           settings={numberSettings}
         />
       )}
+      {currentView === "date-settings" && (
+        <DateSettings
+          onApply={handleApplyDateSettings}
+          onBack={() => setCurrentView("options")}
+          settings={dateSettings}
+        />
+      )}
+      {currentView === "address-settings" && (
+        <AddressSettings
+          onApply={handleApplyAddressSettings}
+          onBack={() => setCurrentView("options")}
+          settings={addressSettings}
+        />
+      )}
     </div>
   );
 };
 
 export default App;
-
